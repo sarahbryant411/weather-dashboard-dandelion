@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,33 @@
   <link href="./assets/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <!-- Your content goes here -->
-  Hello World!
-<script src= "./assets/js/script.js"></script>
+  <nav>
+    <h1>Weather Dashboard</h1>
+  </nav>
+  <main>
+    <aside>
+      <h2>Search for a City:</h2>
+      <form>
+        <input type="text" name="city" id="city" placeholder="City Name">
+        <button type="submit">Search</button>
+      </form>
+      <div class="search-history-buttons">
+        <!-- buttons here -->
+        <button class="search-history-button">Atlanta</button>
+        <button class="search-history-button">New York</button>
+        <button class="search-history-button">Los Angeles</button>
+        <button class="search-history-button">Chicago</button>
+        <button class="search-history-button">Houston</button>
+      </div>
+    </aside>
+    <section class="weather">
+      <div class="current">current weather</div>
+      <div class="forecast">forecast</div>
+    </section>
+  </main>
+
 </body>
+<script src="./assets/js/script.js"></script>
+</body>
+
 </html>
