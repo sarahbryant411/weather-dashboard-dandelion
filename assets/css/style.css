@@ -5,18 +5,19 @@
 }
 
 h1 {
-    font-size: 32px;;
+    font-size: 32px;
 }
 
 body {
     min-height: 100vh;
-    background-color: floralwhite;
+    background-color: #F8B195;
     display: flex;
     flex-direction: column;
 }
 
 nav {
-    background-color: aqua;
+    font-family: optima, sans-serif;
+    margin: auto;
 }
 
 main {
@@ -26,23 +27,48 @@ main {
 }
 
 aside {
-    background-color: cadetblue;
+    background-color: #355C7D;
     flex: 1;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    font-family: optima, sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form button {
+    background-color: #F8B195;
+    font-family: optima, sans-serif;
 }
 
 .weather {
-    background-color: indianred;
     flex: 4;
     display: flex;
     flex-direction: column;
 }
 
 .current {
-    background-color: lightsalmon;
+    background-color: #f67280;
     flex: 1;
 }
 
 .forecast {
-    background-color: lemonchiffon;
+    background-color: #f67280;
     flex: 1;
+}
+
+.search-history-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: optima, sans-serif;
+}
+
+.search-history-button {
+ background-color: #6C5B7B;
 }
