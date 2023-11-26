@@ -18,3 +18,13 @@ function fetchWeatherData(city){
             console.error('Error:', error);
         });
     }
+function handleWeatherData(data){
+    // Get the elements where you want to display the data
+    var temperatureEl = document.querySelector('#temperature');
+    var conditionEl = document.querySelector('#condition');
+    var locationEl = document.querySelector('#location');
+
+    // Update the text content of the elements with data from the API
+    temperatureEl.textContent = '${data.main.temp}°F';
+}   conditionEl.textContent = data.weather[0].description;
+    locationEl.textContent = data.name;
