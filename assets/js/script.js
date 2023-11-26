@@ -1,6 +1,8 @@
+// Import API key from a seperate file
+import {apiKey} from './apiKey.js';
+
 function fetchWeatherData(city) {
-    // Define the API and URL
-    var apiKey = 'a4684f76edfce6759ec93925b4bd629e';
+    // Define the URL
     var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     // Fetch the data
@@ -12,10 +14,12 @@ function fetchWeatherData(city) {
         .then(function (data) {
             // Handle the data
             handleWeatherData(data);
+            fetchForecastData(data.coord.lat, data.coord.lon);
         })
         .catch(function (error) {
             // If there is any error you will catch them here
             console.error('Error:', error);
+            alert('Failed to get weather data. Please try again.');
         });
 }
 function handleWeatherData(data) {
@@ -34,23 +38,13 @@ function handleForecastData(data) {
     var forecastContainerEl = document.querySelector('#forecast-container');
 
     data.list.forEach(item => {
-        var forecastItem = document.createEl('div');
+        var forecastItem = document.createElement('div');
         forecastItem.textContent = `${new Date(item.dt_txt).toLocaleDateString()} - ${item.main.temp}°F - ${item.weather[0].description}`;
         forecastContainerEl.appendChild(forecastItem);
     });
-
-// Add event listener to the search history buttons
-var searchHistoryButtons = document.querySelectorAll('.search-history-button');
-searchHistoryButtons.forEach(function(button) {
-    button.addEventListener('click', function(){
-        var city = this.textContent;
-        fetchWeatherData(city);
-    });
-});
-
+}
 function fetchForecastData(lat, lon){
-    // Define the API key and URL
-    var apiKey = 'a4684f76edfce6759ec93925b4bd629e';
+    // Define the URL
     var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
     // Use the fetch API to get the forecast data
@@ -66,17 +60,25 @@ function fetchForecastData(lat, lon){
         .catch(function (error) {
             // If there is any error you will catch them here
             console.error('Error:', error);
+            alert('Failed to get forecast data. Please try again.');
         });
-
-    //Fetch the forecast data
-    fetchForecastData(data.coord.lat, data.coord.lon);
-    
+}
         // Add the event listener to the form
-document.querySelector('#search-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    var city = document.querySelector('#city').value;
-    fetchWeatherData(city);
+        document.querySelector('#search-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var city = document.querySelector('#city').value;
+            fetchWeatherData(city);
+        });
+        
+
+// Add event listener to the search history buttons
+var searchHistoryButtons = document.querySelectorAll('.search-history-button');
+searchHistoryButtons.forEach(function(button) {
+    button.addEventListener('click', function(){
+        var city = this.textContent;
+        fetchWeatherData(city);
+    });
 });
-}
-}
+    
+
 
