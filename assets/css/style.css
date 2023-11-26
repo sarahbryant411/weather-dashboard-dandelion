@@ -55,7 +55,14 @@ form button {
 #current-weather {
     background-color: #f67280;
     flex: 1;
-    font-family: optima, sans-serif
+    font-family: optima, sans-serif;
+}
+
+.weather-card {
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    color: #333;
 }
 
 #forecast {
@@ -65,9 +72,10 @@ form button {
 
 .forecast-card {
     border: 1px #ccc solid;
-    border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    color: #333;
 }
 
 .city-name {

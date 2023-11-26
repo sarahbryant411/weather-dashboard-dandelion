@@ -28,3 +28,11 @@ function fetchWeather(city) {
         error => console.log(error);
 }
 
+var cityButtons = document.querySelectorAll('.search-history button');
+cityButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        var city = button.textContent;
+        fetchWeather(city);
+    }))
+    
+
