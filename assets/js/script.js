@@ -5,3 +5,11 @@ var searchForm = document.getElementById('search-form');
 var locationElement = document.getElementById('location');
 var temperatureElement = document.getElementById('temperature');
 var conditionsElement = document.getElementById('condition');
+
+searchForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var city = event.target[0].value;
+    console.log(city);
+    fetchWeather(city);
+});
+
