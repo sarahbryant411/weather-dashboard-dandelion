@@ -52,14 +52,15 @@ form button {
     flex-direction: column;
 }
 
-.current {
+#current {
     background-color: #f67280;
     flex: 1;
+    font-family: optima, sans-serif
 }
 
-.forecast {
-    background-color: #f67280;
+#forecast {
     flex: 1;
+    font-family: optima, sans-serif
 }
 
 .search-history-buttons {
