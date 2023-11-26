@@ -25,5 +25,6 @@ function fetchWeather(city) {
             temperatureElement.textContent = data.main.temp;
             conditionsElement.textContent = data.weather[0].description;
         });
+        error => console.log(error);
 }
 
