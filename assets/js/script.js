@@ -13,3 +13,17 @@ searchForm.addEventListener('submit', function (event) {
     fetchWeather(city);
 });
 
+function fetchWeather(city) {
+    var url = apiUrl + '?q=' + city + '&units=imperial&appid=' + apiKey;
+    fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            locationElement.textContent = data.name;
+            temperatureElement.textContent = data.main.temp;
+            conditionsElement.textContent = data.weather[0].description;
+        });
+}
+
