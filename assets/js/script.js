@@ -20,21 +20,35 @@ searchForm.addEventListener("submit", function (event) {
     console.log(city);
     fetchWeather(city);
 });
+// Function to fetch data based on the latitude and longitude
 
 function getGeoWeather(lat, lon) {
     fetch('http://api.openweathermap.org/data/2.5/forecast?appid=8823600ae11757d74ec67f06b60ca5ef&lat=' + lat + '&lon=' + lon + '&units=imperial')
         .then(function (response) {
             return response.json();
         })
-    }
+        .then(function (data) {
+            console.log(data);
+            getGeoWeather(data.lat, data.lon);
+        });
+}
+// Function to fetch data based on the city name
+function getCityGeoData() {
+    fetch('http://apiKey.openweathermap.org/geo/1.0/direct?qappid=8823600ae11757d74ec67f06b60ca5ef&limit=1&q=Atlanta')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+        getCityGeoData(data[0].lat, data[0].lon);
+    });
+}
 
 function fetchWeather(city) {
     var urlCurrent = apiUrlCurrent + "?q=" + city + "&units=imperial&appid=" + apiKey;
     var urlForecast = UrlForecast + "?q=" + cityName + "&units=imperial&appid=" + apiKey;
 
-    console.log("urlCurrent: ", urlCurrent);
-    console.log("urlForecast: ", urlForecast);
-    
+
     fetch(urlCurrent)
         .then(function (response) {
             if (!response.ok) {
@@ -44,53 +58,62 @@ function fetchWeather(city) {
         })
 
         .then(function (data) {
-            console.log(data);
-            console.log("data.main.temp = ", data.main.temp);
-            console.log(data.name);
+            var cityName = data.name;
+            var temperature = data.main.temp;
+            var windspeed = data.weather[0].description;
+            var humidity = data.main.humidity;
 
-
-            cityName.textContent = data.name;
-            temperatureElement.textContent = data.main.temp;
-            windspeedElement.textContent = data.weather[0].description;
-            humidityElement.textContent = data.main.humidity;
-
-
-            var weatherCard = createWeatherCard(
-                data.name,
-                data.main.temp,
-                data.weather[0].description,
-                data.main.humidity
-            );
-
+            var weatherCard = createWeatherCard(cityName, temperature, windspeed, humidity);
             weather.appendChild(weatherCard);
-            var forecastCard = createForecastCard(
-                data.name,
-                data.main.temp,
-                data.weather[0].description,
-                data.main.humidity
-            );
-
-            forecast.appendChild(forecastCard);
         })
-
         .catch(function (error) {
             console.error(error);
         });
 
-        fetch(urlForecast)
-    .then(function (response) {
-        if (!response.ok) {
-            throw response.json();
-        }
-        return response.json();
-    })
+    fetch(urlForecast)
+        .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
+            return response.json();
+        })
 
-    .then(function (data) {
-        console.log(data);
-        console.log("data.main.temp = ", data.main.temp);
-        console.log(data.name);
-    })
+        .then(function (data) {
+            var forecastData = data.list;
+            forecastData.forEach(function (day) {
+                var cityName = day.city.name;
+                var temperature = day.main.temp;
+                var windspeed = day.weather[0].description;
+                var humidity = day.main.humidity;
+
+                var forecastCard = createForecastCard(cityName, temperature, windspeed, humidity);
+                forecast.appendChild(forecastCard);
+            });
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+
+        fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            cityName.textContent = data.name;
+            temperatureElement.textContent = data.main.temp;
+            windspeedElement.textContent = data.weather[0].description;
+            humidityElement.textContent = data.main.humidity;
+            });
 }
+
+// cityName.textContent = data.name;
+// temperatureElement.textContent = data.main.temp;
+// windspeedElement.textContent = data.weather[0].description;
+// humidityElement.textContent = data.main.humidity;
+
 
 
 var cityButtons = document.querySelectorAll(".search-history button");
@@ -158,8 +181,6 @@ function createForecastCard(city, temperature, windspeed, humidity) {
 }
 
 var forecast = document.getElementById("forecast");
-// var forecastCard = createForecastCard(city, temperature, windspeed, humidity);
-// forecast.appendChild(forecastCard);
 
 
 
