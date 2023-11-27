@@ -7,6 +7,11 @@ var temperatureElement = document.getElementById('temperature');
 var windspeedElement = document.getElementById('wind-speed');
 var humidityElement = document.getElementById('humidity');
 
+document.querySelector('.city-name').textContent = 'City Name';
+document.querySelector('.temperature').textContent = 'Temperature';
+document.querySelector('.wind-speed').textContent = 'Wind Speed';
+document.querySelector('.humidity').textContent = 'Humidity';
+
 searchForm.addEventListener('submit', function (event) {
     event.preventDefault();
     var city = event.target[0].value;
@@ -18,6 +23,9 @@ function fetchWeather(city) {
     var url = apiUrl + '?q=' + city + '&units=imperial&appid=' + apiKey;
     fetch(url)
         .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
             return response.json();
         })
         .then(function (data) {
@@ -25,9 +33,12 @@ function fetchWeather(city) {
             console.log("data.main.temp = ", data.main.temp)
             cityName.textContent = data.name;
             temperatureElement.textContent = data.main.temp;
-            conditionsElement.textContent = data.weather[0].description;
-        });
-        error => console.log(error);
+            windspeedElement.textContent = data.weather[0].description;
+            humidityElement.textContent = data.main.humidity;
+        })
+        .catch(function(error) {
+            console.error(error);
+        }); 
 }
 
 var cityButtons = document.querySelectorAll('.search-history button');
@@ -65,9 +76,9 @@ function createWeatherCard(city, temperature, windspeed, humidity){
     return card;
 }
 
-var weatherContainer = document.getElementById('weather-container');
-var weatherCard = createWeatherCard('Atlanta', 25, 5, 60);
-weatherContainer.appendChild(weatherCard);
+var weather = document.getElementById('current-weather');
+var weatherCard = createWeatherCard(city, temperature, windspeed, humidity);
+weather.appendChild(weatherCard);
 
 function createForecastCard(city, temperature, windspeed, humidity){
     var card =document.createElement('div');
@@ -96,7 +107,10 @@ function createForecastCard(city, temperature, windspeed, humidity){
     return card;
 }
 
-var forecastContainer = document.getElementById('forecast-container');
-var forecastCard = createForecastCard('Atlanta', 25, 5, 60);
-forecastContainer.appendChild(forecastCard);
+var forecast = document.getElementById('forecast');
+var forecastCard = createForecastCard(city, temperature, windspeed, humidity);
+forecast.appendChild(forecastCard);
+
+
+
 
