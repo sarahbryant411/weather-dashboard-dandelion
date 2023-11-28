@@ -9,6 +9,8 @@ var windspeedElement = document.getElementsByClassName("wind-speed");
 var humidityElement = document.getElementsByClassName("humidity");
 
 var searchHistory = document.querySelectorAll("search-history");
+var weather = document.getElementById("current-weather");
+var forecast = document.getElementById("forecast");
 
 document.querySelector(".city-name").textContent = "City Name";
 document.querySelector(".temperature").textContent = "Temperature";
@@ -106,8 +108,10 @@ function getCurrentWeather(cityName, temperature, windspeed, humidity) {
 
                             var cityName = document.createElement("h2");
                             cityName.className = "city-name";
-                            cityName.textContent = city;
-                            card.appendChild(cityName);
+
+                            var span = document.createElement("span");
+                            span.textContent = city;
+                            cityName.appendChild(span);
 
                             var temp = document.createElement("p");
                             temp.className = "temperature";
@@ -127,16 +131,16 @@ function getCurrentWeather(cityName, temperature, windspeed, humidity) {
                             return card;
                         }
 
-                        var weather = document.getElementById("current-weather");
-
                         function createForecastCard(city, temperature, windspeed, humidity) {
                             var card = document.createElement("div");
                             card.className = "forecast-card";
 
                             var cityName = document.createElement("h2");
                             cityName.className = "city-name";
-                            cityName.textContent = city;
-                            card.appendChild(cityName);
+                            
+                            var span = document.createElement("span");
+                            span.textContent = city;
+                            cityName.appendChild(span);
 
                             var date = document.createElement("p");
                             date.className - "forecast-date";
@@ -160,7 +164,6 @@ function getCurrentWeather(cityName, temperature, windspeed, humidity) {
                             return card;
                         }
 
-                        var forecast = document.getElementById("forecast");
                     })
             }
         })}
