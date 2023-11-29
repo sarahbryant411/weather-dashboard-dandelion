@@ -1,18 +1,40 @@
+const apiKey = "e38f1f3c83719cf96fbce49bc31a4fdd";
+console.log('API Key:', apiKey);
+
+function constructForecastUrl(lat, lon) {
+    return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
 function getWeatherData(city) {
-
     // Define the URL
-    var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    var forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
+    var url = forecastUrl + city;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error  => {
+        console.error('Error:', error);
+        alert('Failed to get weather data. Please try again.');
+
+function fetchForecastData(lat, lon) {
+    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}";
+    // Use the variable in a function
+    getWeatherData(city);
     // Fetch the data
     fetch(apiUrl)
         .then(function (response) {
+            console.log('API Response:', response);
             // Convert the response to JSON format
             return response.json();
         })
         .then(function (data) {
+            var { lat, lon } = data.coord;
+            var forecastUrl = constructForecastUrl(lat, lon);
             // Handle the data
             handleWeatherData(data);
-            var { lat, lon } = data.coord;
             fetchForecastData(lat, lon);
         })
         .catch(function (error) {
@@ -20,9 +42,9 @@ function getWeatherData(city) {
             console.error('Error:', error);
             alert('Failed to get weather data. Please try again.');
         });
-}
-
+        
 function handleWeatherData(data) {
+    console.log('Handling weather data:', data);
     // Get the elements where you want to display the data
     var temperatureEl = document.querySelector('#temperature');
     var conditionEl = document.querySelector('#condition');
@@ -32,9 +54,9 @@ function handleWeatherData(data) {
     temperatureEl.textContent = `${data.main.temp}°F`;
     conditionEl.textContent = data.weather[0].description;
     locationEl.textContent = data.name;
-}
 
 function handleForecastData(data) {
+    console.log('Handling forecast data:', data);
     // Get the element where you want to display the data
     var forecastContainerEl = document.getElementById('forecast-container');
 
@@ -55,44 +77,24 @@ function handleForecastData(data) {
         // Append the forecast card to the container
         forecastContainerEl.appendChild(forecastCard);
     });
-}
 
-function fetchForecastData(lat, lon) {
-    // Define the URL
-    var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-
-    // Use the fetch API to get the forecast data
-    fetch(apiUrl)
-        .then(function (response) {
-            // Convert the response to JSON format
-            return response.json();
-        })
-        .then(function (data) {
-            // Handle the data
-            handleForecastData(data);
-        })
-        .catch(function (error) {
-            // If there is any error you will catch them here
-            console.error('Error:', error);
-            alert('Failed to get forecast data. Please try again.');
-        });
-}
 // Add the event listener to the form
 document.querySelector('#search-form').addEventListener('submit', function (event) {
     event.preventDefault();
     var city = document.querySelector('#city').value;
-    getWeatherData(city);
+    console.log('Searching for city:', city);
 });
-
 
 // Add event listener to the search history buttons
 var searchHistoryButtons = document.querySelectorAll('.search-history-button');
 searchHistoryButtons.forEach(function (button) {
     button.addEventListener('click', function () {
         var city = this.textContent;
+        console.log('Search history button clicked for city:', city);
         getWeatherData(city);
     });
 });
+}}}}
 
 
 
