@@ -3,86 +3,80 @@ console.log('API Key:', apiKey);
 
 function constructForecastUrl(lat, lon) {
     return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-
+}
 function getWeatherData(city) {
     // Define the URL
-    var forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-
-    var url = forecastUrl + city;
+   var url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        console.log("Current Weather Data:", data);
+        handleWeatherData(data);
+        fetchForecastData(data.coord.lat, data.coord.lon);
     })
     .catch(error  => {
         console.error('Error:', error);
         alert('Failed to get weather data. Please try again.');
-
+    });
+}
 function fetchForecastData(lat, lon) {
     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}";
     // Use the variable in a function
-    getWeatherData(city);
-    // Fetch the data
-    fetch(apiUrl)
-        .then(function (response) {
-            console.log('API Response:', response);
-            // Convert the response to JSON format
-            return response.json();
-        })
-        .then(function (data) {
-            var { lat, lon } = data.coord;
-            var forecastUrl = constructForecastUrl(lat, lon);
-            // Handle the data
-            handleWeatherData(data);
-            fetchForecastData(lat, lon);
-        })
-        .catch(function (error) {
-            // If there is any error you will catch them here
-            console.error('Error:', error);
-            alert('Failed to get weather data. Please try again.');
-        });
-        
+    fetch(forecastUrl)
+    .then(response => response.json())
+    .then(data => {
+        console.log("Forecast Data:", data);
+        handleForecastData(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to get forecast data. Please try again.');
+    });
+}
+    
 function handleWeatherData(data) {
     console.log('Handling weather data:', data);
     // Get the elements where you want to display the data
     var temperatureEl = document.querySelector('#temperature');
-    var conditionEl = document.querySelector('#condition');
+    var conditionEl = document.querySelector('#condition-icon');
     var locationEl = document.querySelector('#location');
+    var humidityEl = document.querySelector('#humidity');
+    var windSpeedEl = document.querySelector('#wind-speed');
 
     // Update the text content of the elements with data from the API
     temperatureEl.textContent = `${data.main.temp}°F`;
     conditionEl.textContent = data.weather[0].description;
     locationEl.textContent = data.name;
+    humidityEl.textContent = `${data.main.humidity}%`;
+    windSpeedEl.textContent = `${data.wind.speed} MPH`;
+}
 
 function handleForecastData(data) {
     console.log('Handling forecast data:', data);
     // Get the element where you want to display the data
     var forecastContainerEl = document.getElementById('forecast-container');
-
-    // Clear the container
     forecastContainerEl.innerHTML = '';
 
     data.list.forEach(item => {
-        // Create a forecast card element
         var forecastCard = document.createElement('div');
         forecastCard.classList.add('forecast-card');
 
-        // Populate the forecast card with HTML
         forecastCard.innerHTML = `
-           <h3>$(new Date(item.dt_txt).toLocaleDateString())</h3>
-           <p>Temperature: ${item.main.temp}°F</p>
-              <p>Condition: ${item.weather[0].description}</p>
-        `;
-        // Append the forecast card to the container
+              <h3>$(new Date(item.dt_txt).toLocaleDateString())</h3>
+                <p>Temperature: ${item.main.temp}°F</p>
+                <p>Condition: ${item.weather[0].description}</p>
+                ;
         forecastContainerEl.appendChild(forecastCard);
     });
+} 
 
 // Add the event listener to the form
 document.querySelector('#search-form').addEventListener('submit', function (event) {
     event.preventDefault();
     var city = document.querySelector('#city').value;
     console.log('Searching for city:', city);
+    getWeatherData(city);
 });
 
 // Add event listener to the search history buttons
@@ -92,9 +86,10 @@ searchHistoryButtons.forEach(function (button) {
         var city = this.textContent;
         console.log('Search history button clicked for city:', city);
         getWeatherData(city);
-    });
 });
-}}}}
+});
+
+
 
 
 
