@@ -29,6 +29,7 @@ main {
 aside {
     background-color: #355C7D;
     flex: 1;
+    width: 300px;
     gap: 20px;
     display: flex;
     flex-direction: column;
@@ -83,7 +84,7 @@ form button {
     margin-bottom: 10px;
 }
 
-.temperature, wind-speed, humidity {
+.temperature, .wind-speed, .humidity {
     font-size: 18px;
     margin-bottom: 5px;
 }

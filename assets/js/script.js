@@ -21,7 +21,7 @@ function getWeatherData(city) {
     });
 }
 function fetchForecastData(lat, lon) {
-    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}";
+    var forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     // Use the variable in a function
     fetch(forecastUrl)
     .then(response => response.json())
@@ -63,12 +63,13 @@ function handleForecastData(data) {
         forecastCard.classList.add('forecast-card');
 
         forecastCard.innerHTML = `
-              <h3>$(new Date(item.dt_txt).toLocaleDateString())</h3>
+              <h3>${new Date(item.dt_txt).toLocaleDateString()}</h3>
                 <p>Temperature: ${item.main.temp}°F</p>
                 <p>Condition: ${item.weather[0].description}</p>
-                ;
+                <p>Humidity: ${item.main.humidity}%</p>
+                <p>Wind Speed: ${item.wind.speed} MPH</p>
         forecastContainerEl.appendChild(forecastCard);
-    });
+   ` }); 
 } 
 
 // Add the event listener to the form
@@ -86,13 +87,5 @@ searchHistoryButtons.forEach(function (button) {
         var city = this.textContent;
         console.log('Search history button clicked for city:', city);
         getWeatherData(city);
+    });
 });
-});
-
-
-
-
-
-
-
-
