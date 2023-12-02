@@ -1,6 +1,9 @@
 const apiKey = "a584648550aab74ded1872e83f105b24";
 console.log('API Key:', apiKey);
 
+const storageArray = JSON.parse(localStorage.getItem('searchHistory')) || [];
+console.log('Storage array:', storageArray);
+
 function constructForecastUrl(lat, lon) {
     return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 }
@@ -12,6 +15,18 @@ function getWeatherData(_city) {
     .then(response => response.json())
     .then(data => {
         console.log("Data from API:", data);
+        if (!storageArray.includes(data.name)) {
+            storageArray.push(data.name);
+            localStorage.setItem('searchHistory', JSON.stringify(storageArray));
+        }
+        else {
+            // Move the city name to the top of the array
+            var index = storageArray.indexOf(data.name);
+            storageArray.splice(index, 1);
+            storageArray.push(data.name);
+            localStorage.setItem('searchHistory', JSON.stringify(storageArray));
+        }
+        setupSearchHistoryButtons();
         handleWeatherData(data);
         fetchForecastData(data.coord.lat, data.coord.lon);
     })
