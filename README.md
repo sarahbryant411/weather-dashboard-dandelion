@@ -22,4 +22,13 @@ THEN I am again presented with current and future conditions for that city
 
 ![My Weather Dashboard](https://github.com/sarahbryant411/weather-dashboard-dandelion/assets/146653670/a3208cfb-9ea6-47e2-96cc-3ad2dfe4f755)
 
+##### Deployed Application:
+
+https://sarahbryant411.github.io/weather-dashboard-dandelion/
+
+###### Github Repository:
+
+https://github.com/sarahbryant411/weather-dashboard-dandelion
+
+
 
