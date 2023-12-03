@@ -3,6 +3,7 @@ console.log('API Key:', apiKey);
 
 const storageArray = JSON.parse(localStorage.getItem('searchHistory')) || [];
 console.log('Storage array:', storageArray);
+setupSearchHistoryButtons();
 
 function constructForecastUrl(lat, lon) {
     return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
@@ -81,13 +82,12 @@ function handleWeatherData(data) {
 
     // Update the text content of the elements with data from the API
     temperatureEl.textContent = `${data.main.temp}°F`;
-    conditionEl.textContent = data.weather[0].description;
     locationEl.textContent = data.name;
     humidityEl.textContent = `${data.main.humidity}%`;
     windSpeedEl.textContent = `${data.wind.speed} MPH`;
 
     // Display the weather icon
-    var iconUrl = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+    var iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
     var iconImg = document.createElement('img');
     iconImg.setAttribute('src', iconUrl);
     conditionEl.appendChild(iconImg);
@@ -128,12 +128,15 @@ document.querySelector('#search-form').addEventListener('submit', function (even
 
 function setupSearchHistoryButtons() {
 // Add event listener to the search history buttons
-var searchHistoryButtons = document.querySelectorAll('.search-history-button');
-searchHistoryButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-        var city = this.textContent;
-        console.log('Search history button clicked for city:', city);
-        getWeatherData(city);
+var searchHistoryButtons = document.querySelector('.search-history-buttons');
+searchHistoryButtons.innerHTML = '';
+storageArray.forEach(function (cityName) {
+    var button = document.createElement('button');
+    button.classList.add('search-history-button');
+    button.textContent = cityName;
+    button.addEventListener('click', function (event) {
+        getWeatherData(event.target.textContent);
     });
+    searchHistoryButtons.prepend(button);
 });
 }
