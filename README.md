@@ -18,3 +18,8 @@ THEN I am again presented with current and future conditions for that city
 
 #### Screenshots:
 
+![My Weather Dashboard (1)](https://github.com/sarahbryant411/weather-dashboard-dandelion/assets/146653670/a6d921b0-b497-4c41-bac8-3dc0d31d08d1)
+
+![My Weather Dashboard](https://github.com/sarahbryant411/weather-dashboard-dandelion/assets/146653670/a3208cfb-9ea6-47e2-96cc-3ad2dfe4f755)
+
+
